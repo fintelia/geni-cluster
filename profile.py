@@ -26,6 +26,6 @@ for i in range(params.n):
         node.addService(pg.Execute(shell="bash", command="/bin/bash /local/repository/worker.sh | tee /local/repository/log"))
     iface = node.addInterface("if" + str(i))
     iface.addAddress(pg.IPv4Address("192.168.1." + str(i+1), "255.255.255.0"))
-    link.addInterface()
+    link.addInterface(iface)
 
 pc.printRequestRSpec()
