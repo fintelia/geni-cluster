@@ -21,10 +21,10 @@ sudo -E arkade install openfaas --load-balancer
 
 echo "\nForwarding openfaas gateway..."
 sudo kubectl rollout status -n openfaas deploy/gateway
-sudo systemd-run kubectl port-forward -n openfaas svc/gateway 8080:8080
+sudo systemd-run --unit=faas.gateway kubectl port-forward -n openfaas svc/gateway 8080:8080
 
 echo "\nLogin to faas-cli..."
 export PASSWORD=$(sudo kubectl get secret -n openfaas basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode; echo)
-echo -n $PASSWORD | faas-cli login --username admin --pasword-stdin
+echo -n $PASSWORD | faas-cli login --username admin --password-stdin
 
 echo "Done."
