@@ -6,15 +6,17 @@ sudo usermod -aG docker $USER
 
 echo "\nDownloading k3s..."
 curl -sfL https://get.k3s.io | K3S_CLUSTER_SECRET=my_super_secret_token sudo sh -
+export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+
+echo "\nCopying config..."
+mkdir -p ~/.kube
+sudo kubectl config view --raw > ~/.kube/config
 
 echo "\nDownloading faas-cli..."
 curl -sSL https://cli.openfaas.com | sudo sh
 
 echo "\nDownloading arkade..."
 curl -sLS https://dl.get-arkade.dev | sudo sh
-
-echo "\nCopying config..."
-sudo kubectl config view --raw | sudo tee ~/.kube/config
 
 echo "\nInstalling openfaas..."
 sudo -E arkade install openfaas --load-balancer
