@@ -6,7 +6,7 @@ sudo usermod -aG docker $USER
 curl -sfL https://get.k3s.io | K3S_CLUSTER_SECRET=my_super_secret_token sudo sh -
 sudo kubectl config view --raw | sudo tee ~/.kube/config
 
-curl -sLS https://dl.get-arkade.dev | sudo sh
+curl -sSL https://cli.openfaas.com | sudo sh
 
-arkade install faas-cli
-sudo -E arkade install openfaas
+curl -sLS https://dl.get-arkade.dev | sudo sh
+sudo -E arkade install openfaas --load-balancer
