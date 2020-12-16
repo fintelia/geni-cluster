@@ -21,9 +21,9 @@ link = request.LAN("lan")
 for i in range(params.n):
     node = request.RawPC("node" + str(i))
     if i == 0:
-        node.addService(pg.Execute(shell="sh", command="/local/repository/leader.sh | tee /local/repository/log"))
+        node.addService(pg.Execute(shell="bash", command="/bin/bash /local/repository/leader.sh | tee /local/repository/log"))
     else:
-        node.addService(pg.Execute(shell="sh", command="/local/repository/worker.sh | tee /local/repository/log"))
+        node.addService(pg.Execute(shell="bash", command="/bin/bash /local/repository/worker.sh | tee /local/repository/log"))
     link.addInterface(node.addInterface("if0"))
 
 pc.printRequestRSpec()
