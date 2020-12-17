@@ -31,8 +31,11 @@ sudo kubectl rollout status -n openfaas deploy/gateway
 sudo systemd-run --unit=faas.gateway kubectl port-forward -n openfaas svc/gateway 8080:8080
 
 echo ""
-echo "Login to faas-cli..."
-export PASSWORD=$(sudo kubectl get secret -n openfaas basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode; echo)
-echo -n $PASSWORD | faas-cli login --username admin --password-stdin
+echo "Setting up auto-login for faas-cli..."
+
+sudo tee -a /etc/profile <<EOF
+
+echo -n \$(sudo kubectl get secret -n openfaas basic-auth -o jsonpath='{.data.basic-auth-password}' | base64 --decode; echo) | faas-cli login --username admin --password-stdin
+EOF
 
 echo "Done."
